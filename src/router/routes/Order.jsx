@@ -6,16 +6,25 @@ const UpdateOrder = lazy(() => import ('../../views/UpdateOrder'));
 
 const OrderRoutes = [
   {
-    path: '/order/:id',
-    component: <OrderDetails />
+    path: 'order/:id',
+    element: <OrderDetails />,
+    meta: {
+      authRoute: true
+    }
   },
   {
-    path: '/order/edit/:id',
-    component: <UpdateOrder />
+    path: 'order/edit/:id',
+    element: <UpdateOrder />,
+    meta: {
+      authRoute: true
+    }
   },
   {
-    path: '/orders',
-    component: <OrderList />
+    path: 'orders',
+    element: <OrderList />,
+    meta: {
+      adminRoute: true
+    }
   }
 ];
 

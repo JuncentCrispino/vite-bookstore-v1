@@ -8,15 +8,24 @@ const ForgotPassword = lazy(() => import ('../../views/ForgotPassword'));
 const AuthRoutes = [
   {
     path: 'auth/login',
-    component: <Login />
+    element: <Login />,
+    meta: {
+      publicRoute: true
+    }
   },
   {
     path: 'auth/register',
-    component: <Register />
+    element: <Register />,
+
+    publicRoute: true
+
   },
   {
     path: 'auth/forgot-password',
-    component: <ForgotPassword />
+    element: <ForgotPassword />,
+
+    publicRoute: true
+
   }
 ];
 

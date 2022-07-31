@@ -2,14 +2,14 @@ import AuthRoutes from './Auth';
 import UserRoutes from './User';
 import ProductRoutes from './Product';
 import OrderRoutes from './Order';
-
-const DefaultRoute = '/home';
+import MiscRoutes from './MiscRoutes';
 
 const AppRoutes = [
   ...AuthRoutes,
   ...UserRoutes,
   ...ProductRoutes,
-  ...OrderRoutes
+  ...OrderRoutes,
+  ...MiscRoutes
 ];
 
-export { DefaultRoute, AppRoutes };
+export { AppRoutes };

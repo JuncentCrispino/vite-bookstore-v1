@@ -1,7 +1,85 @@
-.auth-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body, ul, li, h1, h2, a {
+  margin: 0;
+  padding: 0;
+}
+
+div h1 {
+  display: grid;
+  place-items: center;
   height: 100vh;
-  border: 2px solid;
+}
+
+.loader {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.main-nav {
+  background-color: gainsboro;
+  padding: 15px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.nav-1 {
+  display: flex;
+  justify-content: flex-start
+}
+
+.nav-2 {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-nav li {
+  padding: 0 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.main-nav li a {
+  text-decoration: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.auth-sec {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.auth-sec form {
+  width: 400px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  padding-top: 20px;
+  padding: 20px 30px 30px 30px;
+  border-radius: 10px;
+}
+
+.auth-sec form .login-input {
+  margin-bottom: 20px;
+}
+
+.login-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.login-error {
+  color: red;
+  font-size: small;
 }

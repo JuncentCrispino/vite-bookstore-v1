@@ -1,21 +1,38 @@
 import React from 'react';
 import { lazy } from 'react';
+const Products = lazy(() => import ('../../views/Products'));
 const ProductDetails = lazy(() => import ('../../views/ProductDetails'));
 const UpdateProduct = lazy(() => import ('../../views/UpdateProduct'));
 const CreateProduct = lazy(() => import ('../../views/CreateProduct'));
 
 const ProductRoutes = [
   {
-    path: '/product/:id',
-    component: <ProductDetails />
+    path: 'product/:id',
+    element: <ProductDetails />,
+    meta: {
+      publicRoute: true
+    }
   },
   {
-    path: '/product/edit/:id',
-    component: <UpdateProduct />
+    path: 'product/edit/:id',
+    element: <UpdateProduct />,
+    meta: {
+      adminRoute: true
+    }
   },
   {
-    path: '/product/create',
-    component: <CreateProduct />
+    path: 'product/create',
+    element: <CreateProduct />,
+    meta: {
+      adminRoute: true
+    }
+  },
+  {
+    path: '/products',
+    element: <Products />,
+    meta: {
+      publicRoute: true
+    }
   }
 ];
 

@@ -7,20 +7,32 @@ const Home = lazy(() => import ('../../views/Home'));
 
 const UserRoutes = [
   {
-    path: '/user/details/:id',
-    component: <UserDetails />
+    path: 'user/details',
+    element: <UserDetails />,
+    meta: {
+      authRoute: true
+    }
   },
   {
     path: 'user/edit/:id',
-    component: <UpdateUser />
+    element: <UpdateUser />,
+    meta: {
+      authRoute: true
+    }
   },
   {
-    path: '/users',
-    component: <UserList />
+    path: 'users',
+    element: <UserList />,
+    meta: {
+      adminRoute: true
+    }
   },
   {
-    path: '/home',
-    component: <Home />
+    path: 'home',
+    element: <Home />,
+    meta: {
+      publicRoute: true
+    }
   }
 ];
 
