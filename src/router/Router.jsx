@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoutes } from './routes';
 import AdminRoutes from './routes/AdminRoutes';
@@ -7,7 +7,7 @@ import { isUserLoggedIn } from '../utility/Utils';
 import userStore from '../store/userStore';
 import { MantineProvider } from '@mantine/core';
 import NavBar from '../components/Navbar';
-import RotateLoader from 'react-spinners/RotateLoader';
+import Loader from '../components/Loader';
 
 const Router = () => {
   const user = userStore(state => state.user);
@@ -25,21 +25,26 @@ const Router = () => {
   const authRoutes = AppRoutes.filter(route => route?.meta?.authRoute);
   const adminRoutes = AppRoutes.filter(route => route?.meta?.adminRoute);
   const publicRoutes = AppRoutes.filter(route => route?.meta?.publicRoute);
+  const Login = lazy(() => import('../views/Login'));
+  const Register = lazy(() => import('../views/Register'));
 
   if (isloading) {
     return;
   }
 
   return (
-    <Suspense fallback={<div className='loader'><RotateLoader color='#ffffff' loading={true} size={30} /></div>}>
+    <Suspense fallback={<Loader/>}>
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          fontFamily: 'Montserrat'
+          fontFamily: 'Poppins',
+          colorScheme: 'light'
         }}>
         <BrowserRouter>
           <NavBar/>
+          <Login/>
+          <Register/>
           <Routes>
             {publicRoutes.map(route => (
               <Route key={route.path} path={route.path} element={route.element} />

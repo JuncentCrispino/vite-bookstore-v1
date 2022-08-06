@@ -1,14 +1,21 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import userStore from '../store/userStore';
-import { TextInput, Button, PasswordInput } from '@mantine/core';
+import loginStore from '../store/loginStore';
+import { TextInput, Button, PasswordInput, Modal, useMantineTheme } from '@mantine/core';
 import { MdOutlineAlternateEmail, MdOutlineLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { UnstyledButton } from '@mantine/core';
+import registerStore from '../store/registerStore';
 
 function Login() {
   const navigate = useNavigate();
+  const theme = useMantineTheme();
   const user = userStore(state => state.user);
   const setUser = userStore(state => state.setUser);
+  const showLogin = loginStore(state => state.showLogin);
+  const setShowLogin = loginStore(state => state.setShowLogin);
+  const setShowRegister = registerStore(state => state.setShowRegister);
   const [email, setEmail] = useState('');
   const [validEmail, setValidEmail] = useState(true);
   const [password, setPassword] = useState('');
@@ -19,6 +26,7 @@ function Login() {
   useEffect(() => {
     if (user) {
       navigate('/');
+      setShowLogin(false);
     }
   }, []);
 
@@ -54,6 +62,7 @@ function Login() {
       const loginRes = await loginReq.json();
       if (loginReq.status === 200) {
         setUser(loginRes.user);
+        setShowLogin(false);
         localStorage.setItem('accessToken', loginRes.accessToken);
         localStorage.setItem('refreshToken', loginRes.refreshToken);
         return navigate('/');
@@ -67,24 +76,46 @@ function Login() {
   };
 
   return (
-    <section className="auth-sec">
+
+    <Modal
+      size="sm"
+      overlayColor={theme.colorScheme === 'dark'
+        ? theme.colors.dark[9]
+        : theme.colors.gray[2]}
+      overlayOpacity={0.55}
+      overlayBlur={3}
+      centered
+      opened={showLogin}
+      onClose={() => setShowLogin(false)}
+      title='LOGIN'
+    >
       <form onSubmit={login}>
-        <h3 className='text-center'>Sign In</h3>
-        <TextInput type="text"
-          className='login-input'
+        <TextInput
+          className='mb-2'
+          label='Email'
+          type="text"
           value={email}
           icon={<MdOutlineAlternateEmail size={25} />}
-          radius='md'
-          onChange={(e) => { setEmail(e.target.value); setValidEmail(true); setLoginError(''); }}
-          placeholder="Email"
+          radius='sm'
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setValidEmail(true);
+            setLoginError('');
+          }}
+          placeholder="john@example.com"
           error={!validEmail && 'Please enter a valid email'}
         />
         <PasswordInput
-          className='log-input'
+          className='mb-2'
+          label='Password'
           value={password}
           icon={<MdOutlineLock size={25} />}
-          radius='md'
-          onChange={(e) => { setPassword(e.target.value); setValidPassword(true); setLoginError(''); }}
+          radius='sm'
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setValidPassword(true);
+            setLoginError('');
+          }}
           placeholder="Password"
           error={!validPassword && 'Password must be at least 8 characters'}
           visibilityToggleIcon={({ reveal, size }) =>
@@ -93,20 +124,31 @@ function Login() {
               : <MdVisibility size={size} />
           }
         />
-        {loginError && <p className='login-error'>{loginError}</p>}
-        <span className='login-button'>
+        {loginError && <p className='text-xs text-rose-600 mb-1'>{loginError}</p>}
+        <p className='text-xs text-right'>Not a member yet?
+          <UnstyledButton
+            onClick={() => {
+              setShowLogin(false);
+              setShowRegister(true);
+            }}
+            className='text-xs font-bold ml-1'>Sign up</UnstyledButton>
+        </p>
+        <div className='text-right mt-5'>
           <Button
+            className='bg-blue-500'
             type="submit"
-            size='sm'
-            radius='md'
-            color='primary'
+            size='xs'
+            radius='sm'
             loading={isLoading}
           >
-            Login
+            submit
           </Button>
-        </span>
+        </div>
+        <div>
+        </div>
       </form>
-    </section>
+    </Modal>
+
   );
 }
 
