@@ -1,11 +1,12 @@
 import React from 'react';
+import Page from '../composables/Page';
 
 function NotAuthorized() {
   return (
-    <div>
+    <Page>
       <h1>401</h1>
       <p>Not authorized</p>
-    </div>
+    </Page>
   );
 }
 

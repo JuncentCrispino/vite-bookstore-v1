@@ -14,20 +14,6 @@ const ProductRoutes = [
     }
   },
   {
-    path: 'product/edit/:id',
-    element: <UpdateProduct />,
-    meta: {
-      adminRoute: true
-    }
-  },
-  {
-    path: 'product/create',
-    element: <CreateProduct />,
-    meta: {
-      adminRoute: true
-    }
-  },
-  {
     path: '/products',
     element: <Products />,
     meta: {

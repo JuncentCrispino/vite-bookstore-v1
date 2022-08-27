@@ -1,18 +1,13 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import userStore from '../store/userStore';
-import useWindowsDimensions from '../hooks/useWindowsDimensions';
-import { Menu, UnstyledButton } from '@mantine/core';
-import { RiAccountCircleLine } from 'react-icons/ri';
-import loginStore from '../store/loginStore';
-import registerStore from '../store/registerStore';
+import { logout } from '../apis/auth';
+import cartStore from '../store/cart';
 
 export default function NavBar() {
   const user = userStore(state => state.user);
   const setUser = userStore(state => state.setUser);
-  const setShowLogin = loginStore((state) => state.setShowLogin);
-  const setShowRegister = registerStore(state => state.setShowRegister);
+  const cart = cartStore(state => state.cart);
   const navigate = useNavigate();
 
   const navLinks = [
@@ -35,69 +30,48 @@ export default function NavBar() {
   ];
 
   const handleLogout = async () => {
-    try {
-      const logoutReq = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/logout`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        },
-        body: JSON.stringify({
-          refreshToken: localStorage.getItem('refreshToken')
-        })
-      });
-
-      if (logoutReq.status === 200) {
-        const logoutRes = await logoutReq.json();
-        alert(logoutRes.message);
-        setUser(null);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        navigate('/');
-      }
-    } catch (error) {
-      alert(error);
-    }
+    await logout();
+    setUser(null);
+    return navigate('/');
   };
 
-  useEffect(() => {
-
-  }, []);
+  const renderNavBar = useMemo(() => {
+    return (
+      <div className='fixed inset-x-0 max-w-full bg-primary shadow-s1 z-10'>
+        <header className='lg:flex justify-between max-w-screen-xl m-auto py-3'>
+          <nav className='flex gap-4'>
+            {
+              navLinks.map(link => (
+                <Link key={link.name} to={link.path} className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>{link.name}</Link>
+              ))
+            }
+          </nav>
+          <nav>
+            {user
+              ? (
+                <div className='flex gap-4'>
+                  {user?.isAdmin && <Link to='/dashboard' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Dashboard</Link>}
+                  <Link to='/user/details' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Profile</Link>
+                  <Link to='/user/cart' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Items on Cart:{cart.reduce((t, c) => t + c.qty, 0)}</Link>
+                  <button onClick={handleLogout} className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Logout</button>
+                </div>
+              )
+              : (
+                <div className='flex gap-4'>
+                  <Link to='/auth/register' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Register</Link>
+                  <Link to='/auth/login' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Login</Link>
+                </div>
+              )
+            }
+          </nav>
+        </header>
+      </div>
+    );
+  }, [user, cart]);
 
   return (
-    <header className='bg-amber-500'>
-      <nav className='py-2 container mx-auto flex justify-between items-center text-red-50'>
-        <section>
-          {navLinks.map(link => (
-            <Link key={link.name} to={link.path} className='pr-3'>{link.name}</Link>
-          ))}
-        </section>
-        <section className='flex items-center'>
-          {user
-            ? (
-              <Menu shadow="md" width={200}>
-                <Menu.Target>
-                  <UnstyledButton>
-                    <RiAccountCircleLine color='white' size={30} />
-                  </UnstyledButton>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item onClick={() => navigate('/user/details')}>
-                  Profile
-                  </Menu.Item>
-                  <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            )
-            : (
-              <>
-                <UnstyledButton className='text-red-50 pr-3' onClick={() => setShowRegister(true)}>Register</UnstyledButton>
-                <UnstyledButton className='text-red-50' onClick={() => setShowLogin(true)}>Login</UnstyledButton>
-
-              </>
-            )}
-        </section>
-      </nav>
-    </header>
+    <>
+      {renderNavBar}
+    </>
   );
 }

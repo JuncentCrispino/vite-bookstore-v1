@@ -1,10 +1,11 @@
 import React from 'react';
+import Page from '../composables/Page';
 
 function Home() {
   return (
-    <div>
+    <Page>
       <h1>Home</h1>
-    </div>
+    </Page>
   );
 }
 

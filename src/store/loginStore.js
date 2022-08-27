@@ -1,7 +1,7 @@
 import create from 'zustand';
 
 const loginStore = create(set => ({
-  showLogin: false,
+  showLogin: true,
   setShowLogin: (showLogin) => set(() => ({ showLogin }))
 }));
 

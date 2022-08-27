@@ -4,6 +4,7 @@ const UserDetails = lazy(() => import ('../../views/UserDetails'));
 const UpdateUser = lazy(() => import ('../../views/UpdateUser'));
 const UserList = lazy(() => import ('../../views/UserList'));
 const Home = lazy(() => import ('../../views/Home'));
+const Dashboard = lazy(() => import ('../../views/Dashboard'));
 
 const UserRoutes = [
   {
@@ -32,6 +33,13 @@ const UserRoutes = [
     element: <Home />,
     meta: {
       publicRoute: true
+    }
+  },
+  {
+    path: 'dashboard',
+    element: <Dashboard />,
+    meta: {
+      adminRoute: true
     }
   }
 ];

@@ -1,10 +1,11 @@
 import React from 'react';
+import Page from '../composables/Page';
 
 function ContactUs() {
   return (
-    <div>
+    <Page>
       <h1>Contact Us</h1>
-    </div>
+    </Page>
   );
 }
 

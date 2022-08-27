@@ -1,0 +1,14 @@
+.p-btn:hover {
+  background-color: rgb(220 38 38);
+  transition: 0.3s;
+  svg {
+    color: #fff;
+  }
+}
+#stored-btn {
+  background-color: #fff;
+  transition: 0.3s;
+  svg {
+    color: #22bb33;
+  }
+}

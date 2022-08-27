@@ -1,10 +1,11 @@
 import React from 'react';
+import Page from '../composables/Page';
 
 function AllOrders() {
   return (
-    <div>
+    <Page>
       <h1>AllOrders</h1>
-    </div>
+    </Page>
   );
 }
 
