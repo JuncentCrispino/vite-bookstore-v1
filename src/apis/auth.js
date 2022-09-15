@@ -54,8 +54,30 @@ export const refreshAccessToken = async () => {
   }
 };
 
-export const register = async (req, res) => {
+export const register = async (body) => {
+  try {
+    const req = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/sign-up`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
 
+    if (req.status === 200) {
+      const signupRes = await req.json();
+      return {
+        statusCode: req.status,
+        res: signupRes
+      };
+    }
+    return {
+      statusCode: req.status,
+      res: null
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const logout = async () => {

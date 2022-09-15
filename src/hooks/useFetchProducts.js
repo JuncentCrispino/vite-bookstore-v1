@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import productStore from '../store/productStore';
 
-export default function useFetchProducts(query, page, sortBy) {
+export default function useFetchProducts(query, page, sortBy, category) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
-
-  useEffect(() => {
-    setProducts([]);
-  }, [query]);
+  const products = productStore(state => state.products);
+  const setProducts = productStore(state => state.setProducts);
+  const totalPages = productStore(state => state.totalPages);
+  const setTotalPages = productStore(state => state.setTotalPages);
 
   useEffect(() => {
     setIsLoading(true);
@@ -20,23 +19,15 @@ export default function useFetchProducts(query, page, sortBy) {
       url: `${import.meta.env.VITE_REACT_APP_API_URL}/product`,
       params: {
         searchText: query,
+        category,
         page,
         sortBy,
-        limit: 20
+        limit: 10
       },
       cancelToken: new axios.CancelToken(c => cancel = c)
     }).then(res => {
-      setProducts(prevProducts => {
-        prevProducts.map((firstObj) => {
-          res.data.results.map((compareObj, i) => {
-            if (firstObj._id === compareObj._id) {
-              res.data.results.splice(i, 1);
-            }
-          });
-        });
-        return [...prevProducts, ...res.data.results];
-      });
-      setHasMore(res.data.totalPages > page);
+      setProducts(res.data.results);
+      setTotalPages(res.data.totalPages);
       setIsLoading(false);
     }).catch(e => {
       if (axios.isCancel(e)) return;
@@ -45,7 +36,7 @@ export default function useFetchProducts(query, page, sortBy) {
 
     return () => cancel();
 
-  }, [query, page]);
+  }, [query, page, category]);
 
-  return { isLoading, products, error, hasMore };
+  return { isLoading, products, error, totalPages };
 }

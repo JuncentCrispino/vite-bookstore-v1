@@ -12,9 +12,9 @@ div h1 {
 }
 
 #nprogress .bar {
-  background: #6cc070 !important;
+  background: #FFFFFF !important;
   padding: 0 10px !important;
-  height: 4px !important;
+  height: 2px !important;
 }
 
 //.product-container {position: relative;}

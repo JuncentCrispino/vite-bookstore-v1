@@ -38,7 +38,7 @@ function Login() {
       return;
     }
     try {
-      const loginReq = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/login`, {
+      const loginReq = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/sign-in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -71,6 +71,7 @@ function Login() {
     }
   }, []);
 
+  const primaryBtn = 'bg-red-600 border-2 border-red-600 hover:bg-primary  hover:text-red-600 transition-all';
   return (
     <Page>
       <div className='grid place-items-center h-screen max-w-md mx-auto px-4'>
@@ -118,7 +119,7 @@ function Login() {
             </p>
             <div className='text-right mt-5'>
               <Button
-                className='bg-gray-500'
+                className={primaryBtn}
                 type="submit"
                 size='xs'
                 radius='sm'

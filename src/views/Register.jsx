@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userStore from '../store/userStore';
-import loginStore from '../store/loginStore';
-import { TextInput, Button, PasswordInput, Modal, useMantineTheme, Stepper, Group, LoadingOverlay } from '@mantine/core';
+import { TextInput, Button, PasswordInput, Stepper, Group, LoadingOverlay } from '@mantine/core';
 import { MdOutlineAlternateEmail, MdOutlineLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import registerStore from '../store/registerStore';
 import { VscAccount } from 'react-icons/vsc';
 import { MdOutlinePhoneAndroid } from 'react-icons/md';
 import Page from '../composables/Page';
+import { register } from '../apis/auth';
 
 function Register() {
   const navigate = useNavigate();
-  const theme = useMantineTheme();
   const user = userStore(state => state.user);
   const setUser = userStore(state => state.setUser);
-  const showLogin = loginStore(state => state.showLogin);
-  const setShowLogin = loginStore(state => state.setShowLogin);
-  const showRegister = registerStore(state => state.showRegister);
-  const setShowRegister = registerStore(state => state.setShowRegister);
   const [active, setActive] = useState(0);
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
@@ -49,15 +43,12 @@ function Register() {
     if (active === 0) {
       if (!(/^\S+@\S+$/.test(email))) {
         setValidEmail(false);
-        return;
       }
       if (email !== confirmEmail) {
         setValidConfirmEmail(false);
-        return;
       }
       if (password.length < 8) {
         setValidPassword(false);
-        return;
       }
       if (password !== confirmPassword) {
         setValidConfirmPassword(false);
@@ -67,21 +58,26 @@ function Register() {
     } else if (active === 1) {
       if (firstName.length < 1) {
         setValidFirstName(false);
-        return;
       }
       if (lastName.length < 1) {
         setValidLastName(false);
-        return;
       }
       if (phone.length < 1) {
         setValidPhone(false);
-        return;
       }
       if (address.length < 1) {
         setValidAddress(false);
         return;
       }
-      signup();
+      signup({
+        email,
+        password,
+        firstName,
+        lastName,
+        mobileNo: phone,
+        birthday: 'sample',
+        gender: 'sample'
+      });
       return setActive(2);
     }
   };
@@ -90,13 +86,19 @@ function Register() {
     ? current - 1
     : current));
 
-  const signup = async () => {
+  const signup = async (body) => {
     setIsLoading(true);
-    console.log('signed up');
-    setTimeout(() => {
+    const data = await register(body);
+    if (data.statusCode === 200) {
+      setUser(data.res);
       setIsLoading(false);
-    }, 2000);
+    } else {
+      console.log(data);
+    }
+
   };
+
+  const primaryBtn = 'bg-red-600 border-2 border-red-600 hover:bg-primary  hover:text-red-600 transition-all';
 
   return (
     <Page>
@@ -263,99 +265,9 @@ function Register() {
               <span className='text-gray-500 cursor-pointer' onClick={() => navigate('/auth/login')}> Login</span>
             </p>
             <Group position="center" mt="xl">
-              <Button size='xs' radius='sm' color='primary' className='bg-gray-500 hover:bg-gray-500' onClick={prevStep}>Back</Button>
-              <Button type='submit' size='xs' radius='sm' color='primary' className='bg-gray-500 hover:bg-gray-500' onClick={nextStep}>Next</Button>
+              <Button size='xs' radius='sm' color='primary' className={primaryBtn} onClick={prevStep}>Back</Button>
+              <Button type='submit' size='xs' radius='sm' color='primary' className={primaryBtn} onClick={nextStep}>Next</Button>
             </Group>
-            {/* <TextInput
-          className='mb-2'
-          label='Email'
-          type='email'
-          value={email}
-          icon={<MdOutlineAlternateEmail size={25} />}
-          radius='sm'
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setValidEmail(true);
-            setLoginError('');
-          }}
-          placeholder="john@example.com"
-          error={!validEmail && 'Please enter a valid email'}
-        />
-        <TextInput
-          className='mb-2'
-          label='Confirm Email'
-          type='email'
-          value={confirmEmail}
-          icon={<MdOutlineAlternateEmail size={25} />}
-          radius='sm'
-          onChange={(e) => {
-            setConfirmEmail(e.target.value);
-            setValidEmail(true);
-            setLoginError('');
-          }}
-          placeholder="john@example.com"
-          error={!validEmail && 'Please enter a valid email'}
-        />
-        <PasswordInput
-          className='mb-2'
-          label='Password'
-          value={password}
-          icon={<MdOutlineLock size={25} />}
-          radius='sm'
-          onChange={(e) => {
-            setPassword(e.target.value);
-            setValidPassword(true);
-            setLoginError('');
-          }}
-          placeholder="Password"
-          error={!validPassword && 'Password must be at least 8 characters'}
-          visibilityToggleIcon={({ reveal, size }) =>
-            reveal
-              ? <MdVisibilityOff size={size} />
-              : <MdVisibility size={size} />
-          }
-        />
-        <PasswordInput
-          className='mb-2'
-          label='Confirm Password'
-          value={password}
-          icon={<MdOutlineLock size={25} />}
-          radius='sm'
-          onChange={(e) => {
-            setPassword(e.target.value);
-            setValidPassword(true);
-            setLoginError('');
-          }}
-          placeholder="Password"
-          error={!validPassword && 'Password must be at least 8 characters'}
-          visibilityToggleIcon={({ reveal, size }) =>
-            reveal
-              ? <MdVisibilityOff size={size} />
-              : <MdVisibility size={size} />
-          }
-        />
-        {loginError && <p className='text-xs text-rose-600 mb-1'>{loginError}</p>}
-        <p className='text-xs text-right'>Already have an account?
-          <Button
-            onClick={() => {
-              setShowRegister(false);
-              setShowLogin(true);
-            }}
-            className='text-xs font-bold ml-1'>Login</Button>
-        </p>
-        <div className='text-right mt-5'>
-          <Button
-            className='bg-blue-500'
-            type="submit"
-            size='xs'
-            radius='sm'
-            loading={isLoading}
-          >
-            submit
-          </Button>
-        </div>
-        <div>
-        </div> */}
           </form>
         </section>
       </div>

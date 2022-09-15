@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, useMantineTheme, Tabs } from '@mantine/core';
 
 export default function Product({ product, handleOpen, opened, handleAddToCart, handleAddToFavorites }) {
-  console.log(product);
   const theme = useMantineTheme();
   return (
     <>
@@ -22,7 +21,7 @@ export default function Product({ product, handleOpen, opened, handleAddToCart, 
           <Tabs.List>
             <Tabs.Tab value="details">Detials</Tabs.Tab>
             <Tabs.Tab value="Description">Description</Tabs.Tab>
-            <Tabs.Tab value="settings">Settings</Tabs.Tab>
+            <Tabs.Tab value="reviews">Reviews</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="details" pt="xs" className='border-x-[1px] border-b-[1px] rounded-b-[4px]'>
@@ -59,8 +58,8 @@ export default function Product({ product, handleOpen, opened, handleAddToCart, 
             <p className='p-6'>{product.description}</p>
           </Tabs.Panel>
 
-          <Tabs.Panel value="settings" pt="xs" className='border-x-[1px] border-b-[1px] rounded-b-[4px]'>
-        Settings tab content
+          <Tabs.Panel value="reviews" pt="xs" className='border-x-[1px] border-b-[1px] rounded-b-[4px]'>
+            <p className='p-6 text-center'>Coming Soon</p>
           </Tabs.Panel>
         </Tabs>
       </Modal>

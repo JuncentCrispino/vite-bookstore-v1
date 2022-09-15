@@ -5,8 +5,8 @@ import Page from '../composables/Page';
 function UserDetails() {
   return (
     <Page>
-      <div className='max-w-screen-xl m-auto pt-16'>
-        <Link className='bg-red-500 py-2 px-3 text-primary rounded-md hover:bg-red-600 duration-300' to='/product/create'>Add Products</Link>
+      <div className='grid place-items-center h-screen'>
+        Profile
       </div>
     </Page>
   );

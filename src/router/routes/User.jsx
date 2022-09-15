@@ -5,6 +5,7 @@ const UpdateUser = lazy(() => import ('../../views/UpdateUser'));
 const UserList = lazy(() => import ('../../views/UserList'));
 const Home = lazy(() => import ('../../views/Home'));
 const Dashboard = lazy(() => import ('../../views/Dashboard'));
+const Cart = lazy(() => import('../../views/Cart'));
 
 const UserRoutes = [
   {
@@ -40,6 +41,13 @@ const UserRoutes = [
     element: <Dashboard />,
     meta: {
       adminRoute: true
+    }
+  },
+  {
+    path: 'user/cart',
+    element: <Cart />,
+    meta: {
+      authRoute: true
     }
   }
 ];
