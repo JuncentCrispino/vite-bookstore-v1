@@ -1,0 +1,1 @@
+import{j as e}from"./index.473664fb.js";import{P as r}from"./Page.af61b773.js";function a(){return e(r,{children:e("div",{className:"grid place-items-center h-screen",children:"Profile"})})}export{a as default};
