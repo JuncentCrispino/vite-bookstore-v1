@@ -6,6 +6,8 @@ import loginStore from '../store/loginStore';
 import { TextInput, Button, PasswordInput } from '@mantine/core';
 import { MdOutlineAlternateEmail, MdOutlineLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import Page from '../composables/Page';
+import { showNotification } from '@mantine/notifications';
+import { BiCoffee } from 'react-icons/bi';
 
 function Login() {
   const navigate = useNavigate();
@@ -50,11 +52,16 @@ function Login() {
       });
       const loginRes = await loginReq.json();
       if (loginReq.status === 200) {
-        console.log(loginRes);
         setUser(loginRes.user);
         setShowLogin(false);
         localStorage.setItem('accessToken', loginRes.accessToken);
         localStorage.setItem('refreshToken', loginRes.refreshToken);
+        showNotification({
+          icon: <BiCoffee/>,
+          color: 'green',
+          title: 'Good Day!',
+          message: 'You have successfully logged in to your account.'
+        });
         return navigate('/');
       }
       return setLoginError(loginRes.message);

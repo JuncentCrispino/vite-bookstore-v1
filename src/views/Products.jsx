@@ -39,9 +39,9 @@ function Products() {
   return (
     <Page>
       <div className='max-w-screen-xl m-auto pt-12 mb-10'>
-        <div className='pt-6 flex justify-end gap-4'>
-          <SelectCategory category={category} onCategorySelect={onCategorySelect} categories={categories} />
-          <TextInput placeholder='Search' value={query} onChange={handleSearch} className='w-[300px] mr-10'/>
+        <div className='pt-6 grid grid-cols-2 gap-4 place-items-end'>
+          {/* <SelectCategory category={category} onCategorySelect={onCategorySelect} categories={categories} />
+          <TextInput placeholder='Search' value={query} onChange={handleSearch} className='w-[300px] mr-10'/> */}
         </div>
         <section className='flex flex-wrap justify-center gap-10 pt-6'>
           {products.map((product, i) => {

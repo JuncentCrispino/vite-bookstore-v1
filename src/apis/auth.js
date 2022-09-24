@@ -94,8 +94,6 @@ export const logout = async () => {
     });
 
     if (logoutReq.status === 200) {
-      const logoutRes = await logoutReq.json();
-      alert(logoutRes.message);
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       return true;

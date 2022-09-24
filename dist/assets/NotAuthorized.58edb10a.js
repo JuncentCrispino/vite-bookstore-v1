@@ -1,0 +1,1 @@
+import{a as o,j as r}from"./index.ef387dcc.js";import{P as t}from"./Page.ce2d1845.js";function i(){return o(t,{children:[r("h1",{children:"401"}),r("p",{children:"Not authorized"})]})}export{i as default};

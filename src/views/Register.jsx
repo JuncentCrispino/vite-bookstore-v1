@@ -43,12 +43,15 @@ function Register() {
     if (active === 0) {
       if (!(/^\S+@\S+$/.test(email))) {
         setValidEmail(false);
+        return;
       }
       if (email !== confirmEmail) {
         setValidConfirmEmail(false);
+        return;
       }
       if (password.length < 8) {
         setValidPassword(false);
+        return;
       }
       if (password !== confirmPassword) {
         setValidConfirmPassword(false);

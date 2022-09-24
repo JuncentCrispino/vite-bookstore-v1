@@ -14,7 +14,7 @@ div h1 {
 #nprogress .bar {
   background: #FFFFFF !important;
   padding: 0 10px !important;
-  height: 2px !important;
+  height: 1px !important;
 }
 
 //.product-container {position: relative;}

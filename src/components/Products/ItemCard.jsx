@@ -7,6 +7,9 @@ import cartStore from '../../store/cart';
 import favoritesStore from '../../store/favorites';
 import Product from './Product';
 import { toast } from 'react-toastify';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
+import { showNotification } from '@mantine/notifications';
+import { RiErrorWarningFill } from 'react-icons/ri';
 
 export default function ItemCard({ product }) {
   const cart = cartStore(state => state.cart);
@@ -17,38 +20,47 @@ export default function ItemCard({ product }) {
   const [opened, setOpened] = useState(false);
 
   const handleAddToCart = () => {
+    console.log(product);
     if(!cart.some(item => item._id === product._id)){
       addToCart({
         _id: product._id,
         title: product.title,
+        thumbnail: product.thumbnail,
+        authors: product.authors,
+        price: product.price,
         qty: 1
       });
-      return toast.success('Added new book to your cart', {
-        draggable: true,
-        progress: 0
+      return showNotification({
+        icon: <BsFillCheckCircleFill/>,
+        color: 'green',
+        title: 'Success',
+        message: 'Added new book to your cart'
       });
     } else {
-      addItemQty({
-        _id: product._id,
-        title: product.title
-      });
-      return toast.success('Updated book quantity to your cart', {
-        draggable: true,
-        progress: 0
+      addItemQty(product);
+      return showNotification({
+        icon: <BsFillCheckCircleFill/>,
+        color: 'green',
+        title: 'Success',
+        message: 'Updated book quantity on your cart'
       });
     }
   };
   const handleAddToFavorites = () => {
     if (!favorites.some(id => id === product._id)) {
       addToFavorites(product._id);
-      return toast.success(`Added ${product.title} to your favorites`, {
-        draggable: true,
-        progress: 0
+      return showNotification({
+        icon: <BsFillCheckCircleFill/>,
+        color: 'green',
+        title: 'Success',
+        message: `Added ${product.title} to your favorites`
       });
     }
-    return toast.warn(`${product.title} is already in your favorites`, {
-      draggable: true,
-      progress: 0
+    return showNotification({
+      icon: <RiErrorWarningFill/>,
+      color: 'yellow',
+      title: 'Sorry',
+      message: `${product.title} is already in your favorites`
     });
   };
 
@@ -56,7 +68,7 @@ export default function ItemCard({ product }) {
     setOpened(!opened);
   };
   return (
-    <div className="w-48 relative mb-2">
+    <div className="md:w-48 relative mb-2">
       <section>
         <img src={product.thumbnail || DefaultCover} className='object-cover w-full aspect-[2/3] max-w rounded-lg cursor-pointer' onClick={handleOpen}/>
       </section>

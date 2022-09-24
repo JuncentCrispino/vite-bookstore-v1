@@ -10,8 +10,9 @@ import { getUserDetails } from '../apis/user';
 import { refreshAccessToken } from '../apis/auth';
 import { FallbackProvider } from '../composables/FallbackProvider';
 import ScrollToTop from '../components/ScrollToTop';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationsProvider } from '@mantine/notifications';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const authRoutes = AppRoutes.filter(route => route?.meta?.authRoute);
 const adminRoutes = AppRoutes.filter(route => route?.meta?.adminRoute);
@@ -52,32 +53,25 @@ const Router = () => {
   return (
     <Suspense fallback={<Loader/>}>
       <BrowserRouter>
-        <NavBar />
-        <ScrollToTop/>
-        <ToastContainer
-          position="top-left"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <FallbackProvider>
-          <Routes>
-            {publicRoutes.map(route => (
-              <Route key={route.path} path={route.path} element={route.element} />
-            ))}
-            <Route element={<ProtectedRoutes user={user} />} >
-              {authRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
-            </Route>
-            <Route element={<AdminRoutes user={user} />}>
-              {adminRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
-            </Route>
-          </Routes>
-        </FallbackProvider>
+        <PayPalScriptProvider options={{ 'client-id': import.meta.env.VITE_PAYPAL_CLIENT, 'currency': 'PHP' }}>
+          <NotificationsProvider position='top-left' transitionDuration={700} autoClose={3000}>
+            <NavBar />
+            <ScrollToTop/>
+            <FallbackProvider>
+              <Routes>
+                {publicRoutes.map(route => (
+                  <Route key={route.path} path={route.path} element={route.element} />
+                ))}
+                <Route element={<ProtectedRoutes user={user} />} >
+                  {authRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
+                </Route>
+                <Route element={<AdminRoutes user={user} />}>
+                  {adminRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
+                </Route>
+              </Routes>
+            </FallbackProvider>
+          </NotificationsProvider>
+        </PayPalScriptProvider>
       </BrowserRouter>
     </Suspense>
 

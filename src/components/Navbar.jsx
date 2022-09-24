@@ -1,18 +1,18 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import userStore from '../store/userStore';
 import { logout } from '../apis/auth';
 import cartStore from '../store/cart';
 import { Transition } from '@headlessui/react';
 import { SiGitbook } from 'react-icons/si';
-import { BsCartCheckFill } from 'react-icons/bs';
-import { Burger, Indicator } from '@mantine/core';
+import { BsCartCheckFill, BsFillCheckCircleFill } from 'react-icons/bs';
+import { Burger } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 
 export default function NavBar() {
   const user = userStore(state => state.user);
   const setUser = userStore(state => state.setUser);
   const cart = cartStore(state => state.cart);
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -36,47 +36,19 @@ export default function NavBar() {
 
   const handleLogout = async () => {
     await logout();
+    setIsOpen(false);
     setUser(null);
-    return navigate('/');
+    return showNotification({
+      icon: <BsFillCheckCircleFill/>,
+      color: 'green',
+      title: 'Success',
+      message: 'You have successfully logged out.'
+    });
   };
 
-  // const renderNavBar = useMemo(() => {
-  //   return (
-  //     <div className='fixed inset-x-0 max-w-full bg-red-600 shadow-s1 z-10'>
-  //       <header className='lg:flex justify-between max-w-screen-xl m-auto py-3'>
-  //         <nav className='flex gap-4'>
-  //           {
-  //             navLinks.map(link => (
-  //               <NavLink key={link.name} to={link.path} className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>{link.name}</NavLink>
-  //             ))
-  //           }
-  //         </nav>
-  //         <nav>
-  //           {user
-  //             ? (
-  //               <div className='flex gap-4'>
-  //                 {user?.isAdmin && <NavLink to='/dashboard' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Dashboard</NavLink>}
-  //                 <NavLink to='/user/details' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Profile</NavLink>
-  //                 <NavLink to='/user/cart' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Items on Cart:{cart.reduce((t, c) => t + c.qty, 0)}</NavLink>
-  //                 <button onClick={handleLogout} className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Logout</button>
-  //               </div>
-  //             )
-  //             : (
-  //               <div className='flex gap-4'>
-  //                 <NavLink to='/auth/register' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Register</NavLink>
-  //                 <NavLink to='/auth/login' className='text-gray-500 bg-primary hover:text-gray-900 transition duration-300 text-lg'>Login</NavLink>
-  //               </div>
-  //             )
-  //           }
-  //         </nav>
-  //       </header>
-  //     </div>
-  //   );
-  // }, [user, cart]);
-
   const active = ({ isActive }) => (isActive
-    ? 'text-primary text-lg bg-inherit font-bold underline decoration-2 underline-offset-4 '
-    : 'text-primary text-lg bg-inherit');
+    ? 'text-primary text-lg bg-inherit font-bold underline decoration-2 underline-offset-4 py-5'
+    : 'text-primary text-lg bg-inherit py-5');
 
   return (
     <div className='relative z-50'>
@@ -84,7 +56,7 @@ export default function NavBar() {
         <div className='max-w-screen-xl m-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between h-16'>
             <div className='flex gap-4'>
-              <NavLink to='/' className='text-primary bg-inherit'>
+              <NavLink to='/' className='text-primary bg-inherit grid place-content-center'>
                 <SiGitbook size={30} />
               </NavLink>
               <div className='hidden md:block'>
@@ -110,7 +82,7 @@ export default function NavBar() {
                         {user?.isAdmin && <NavLink to='/dashboard' className={active}>Dashboard</NavLink>}
                         <NavLink to='/user/details' className={active}>Profile</NavLink>
 
-                        <button onClick={handleLogout} className={active}>Logout</button>
+                        <NavLink onClick={handleLogout} className='text-primary text-lg bg-inherit py-5' to='/' >Logout</NavLink>
                       </>
                     )
                     : (
@@ -139,25 +111,24 @@ export default function NavBar() {
           leaveTo="opacity-0 scale-95"
         >
           {() => (
-            <div className='md:hidden grid grid-cols-1 place-items-center gap-10 text-lg'>
-              {navLinks.map((item) => <NavLink key={item.name} to={item.path} className={active}>{item.name}</NavLink>)}
-              <NavLink to='/user/cart' className={active}>
+            <div className='md:hidden grid grid-cols-1 place-items-center text-lg'>
+              {navLinks.map((item) => <NavLink onClick={() => setIsOpen(!isOpen)} key={item.name} to={item.path} className={active}>{item.name}</NavLink>)}
+              <NavLink to='/user/cart' className={active} onClick={() => setIsOpen(!isOpen)}>
                 <p className='px-2 text-sm py-1 inline-block bg-primary text-red-600 font-bold rounded-lg'>{cart.reduce((t, c) => t + c.qty, 0)}</p>
                 <BsCartCheckFill className='inline-block' size={30} />
               </NavLink>
               {user
                 ? (
                   <>
-                    {user?.isAdmin && <NavLink to='/dashboard' className={active}>Dashboard</NavLink>}
-                    <NavLink to='/user/details' className={active}>Profile</NavLink>
-
-                    <button onClick={handleLogout} className={active}>Logout</button>
+                    {user?.isAdmin && <NavLink to='/dashboard' className={active} onClick={() => setIsOpen(!isOpen)}>Dashboard</NavLink>}
+                    <NavLink to='/user/details' className={active} onClick={() => setIsOpen(!isOpen)}>Profile</NavLink>
+                    <NavLink onClick={handleLogout} className='text-primary text-lg bg-inherit py-5' to='/' >Logout</NavLink>
                   </>
                 )
                 : (
                   <>
-                    <NavLink to='/auth/register' className={active}>Register</NavLink>
-                    <NavLink to='/auth/login' className={active}>Login</NavLink>
+                    <NavLink to='/auth/register' className={active} onClick={() => setIsOpen(!isOpen)}>Register</NavLink>
+                    <NavLink to='/auth/login' className={active} onClick={() => setIsOpen(!isOpen)}>Login</NavLink>
                   </>
                 )
               }
