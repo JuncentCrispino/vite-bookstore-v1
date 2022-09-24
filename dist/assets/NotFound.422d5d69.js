@@ -1,0 +1,1 @@
+import{a as r,j as o}from"./index.979d33ff.js";import{P as n}from"./Page.62d28b10.js";function t(){return r(n,{children:[o("h1",{children:"404"}),o("p",{children:"Page not found"})]})}export{t as default};

@@ -32,9 +32,9 @@ export default function UserOrders({ orders }) {
                 })}
                 <div className='font-semibold text-lg grid grid-cols-2 place-content-between'>
                   <p>Shipping Cost</p>
-                  <p className='text-right'>{order.deliveryFee.toLocaleString('en-US')} PHP</p>
+                  <p className='text-right'>{order.deliveryFee} PHP</p>
                   <p>Total Cost</p>
-                  <p className='text-right'>{order.totalOrderPrice.toLocaleString('en-US')} PHP</p>
+                  <p className='text-right'>{order.totalOrderPrice} PHP</p>
                 </div>
               </div>
               <Divider my="sm" variant="dotted"/>

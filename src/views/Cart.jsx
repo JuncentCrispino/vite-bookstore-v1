@@ -196,22 +196,22 @@ function Cart() {
                           )}
                           <div className='font-semibold flex justify-between'>
                             <p>SubTotal</p>
-                            <p>₱ {subTotal.toLocaleString('en-US')}</p>
+                            <p>₱ {subTotal}</p>
                           </div>
                         </div>
                         <div className='lg:col-span-1 md:col-span-3 m-5 grid'>
                           <div>
                             <div className='grid grid-cols-2'>
                               <p className='pb-5'>Item Amount</p>
-                              <p className='font-semibold text-right pb-5'>₱ {subTotal.toLocaleString('en-US')}</p>
+                              <p className='font-semibold text-right pb-5'>₱ {subTotal}</p>
                               <p>Shipping Cost</p>
-                              <p className='font-semibold text-right'>₱ {(shipping).toLocaleString('en-US')}</p>
+                              <p className='font-semibold text-right'>₱ {(shipping)}</p>
                             </div>
                           </div>
                           <div className='grid place-content-end '>
                             <div className='grid grid-cols-2 pb-5'>
                               <p>Total Amount</p>
-                              <p className='font-semibold text-right'>₱ {(subTotal + shipping).toLocaleString('en-US')}</p>
+                              <p className='font-semibold text-right'>₱ {(subTotal + shipping)}</p>
                             </div>
                             {user
                               ? (

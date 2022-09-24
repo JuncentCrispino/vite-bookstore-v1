@@ -15,7 +15,7 @@ export default function OrderItem({ bookId, qty }) {
           <p className='text-center text-sm'>{bookDtls?.authors}</p>
         </div>
         <p className='font-semibold'>
-        ₱ {bookDtls?.price.toLocaleString('en-US')}
+        ₱ {bookDtls?.price}
         </p>
         <div className='text-center'>
           <p className='font-semibold'>{qty} {qty > 1
@@ -23,7 +23,7 @@ export default function OrderItem({ bookId, qty }) {
             : 'piece'}</p>
         </div>
         <div className='text-center'>
-          <p className='font-semibold'>{(qty * bookDtls?.price).toLocaleString('en-US')} PHP</p>
+          <p className='font-semibold'>{(qty * bookDtls?.price)} PHP</p>
         </div>
       </div>
       <Divider my="sm" variant="dotted"/>

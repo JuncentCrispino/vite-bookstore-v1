@@ -42,7 +42,7 @@ export default function CartItem({ book }) {
           <p className='text-center text-sm'>{book.authors}</p>
         </div>
         <p className='font-semibold'>
-        ₱ {book.price.toLocaleString('en-US')}
+        ₱ {book.price}
         </p>
         <div className='col-span-1 grid grid-cols-3 place-items-center'>
           <Button size='xs' className='text-2xl bg-red-600 border-2 border-red-600 hover:bg-primary  hover:text-red-600 transition-all' onClick={() => subtracItemToCart(book)}>-</Button>
