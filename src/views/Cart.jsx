@@ -4,10 +4,11 @@ import CartItem from '../components/Cart/CartItem';
 import cartStore from '../store/cart';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import userStore from '../store/userStore';
-import { Button, Group, Stepper, TextInput, Divider } from '@mantine/core';
+import { Button, Group, Stepper, TextInput, Divider, UnstyledButton } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { showNotification } from '@mantine/notifications';
 import { motion } from 'framer-motion';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 function Cart() {
   const user = userStore(state => state.user);
@@ -19,7 +20,7 @@ function Cart() {
   const [email, setEmail] = useState(user?.email || '');
   const [mobileNo, setMobileNo] = useState(user?.mobileNo || '');
   const [houseNo, setHouseNo] = useState(user?.address?.houseNo || user?.address?.unit || '');
-  const [building,setBuilding] = useState(user?.address?.building || '');
+  const [building, setBuilding] = useState(user?.address?.building || '');
   const [street, setStreet] = useState(user?.address?.street || '');
   const [barangay, setBarangay] = useState(user?.address?.barangay || '');
   const [city, setCity] = useState(user?.address?.city || '');
@@ -27,6 +28,7 @@ function Cart() {
   const [shipping, setShipping] = useState(100);
   const [active, setActive] = useState(0);
   const [inputError, setInputError] = useState();
+  const [paypalAcct, setPaypalAcct] = useState(false);
   const navigate = useNavigate();
 
   const nextStep = () => setActive((current) => (current < 1
@@ -131,7 +133,7 @@ function Cart() {
     if (!mobileNo) {
       return setMobileNo('Mobile No is required.');
     }
-    if(!houseNo) {
+    if (!houseNo) {
       return setInputError('Block/Lot/House/Unit Number is required.');
     }
     if (!street) {
@@ -166,20 +168,20 @@ function Cart() {
                       ? (
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                           <div className='grid lg:grid-cols-3 gap-5 md:grid-cols-2 sm:grid-cols-1'>
-                            <TextInput placeholder='John' label='First Name' required value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
-                            <TextInput placeholder='Doe' label='Last Name' required value={lastName} onChange={(e) => setLastName(e.target.value)}/>
-                            <TextInput placeholder='A' label='Middle Name' value={middleName} onChange={(e) => setMiddleName(e.target.value)}/>
-                            <TextInput placeholder='john@example.com' type='email' label='Email' required value={email} onChange={(e) => setEmail(e.target.value)}/>
-                            <TextInput placeholder='09123456789' label='Mobile Number' required value={mobileNo} onChange={(e) => setMobileNo(e.target.value)}/>
+                            <TextInput placeholder='John' label='First Name' required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                            <TextInput placeholder='Doe' label='Last Name' required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                            <TextInput placeholder='A' label='Middle Name' value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
+                            <TextInput placeholder='john@example.com' type='email' label='Email' required value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <TextInput placeholder='09123456789' label='Mobile Number' required value={mobileNo} onChange={(e) => setMobileNo(e.target.value)} />
                           </div>
-                          <Divider my='xl'/>
+                          <Divider my='xl' />
                           <div className='grid lg:grid-cols-3 gap-5 md:grid-cols-2 sm:grid-cols-1'>
-                            <TextInput placeholder='01H' label='Block/Lot/House/Unit Number' required value={houseNo} onChange={(e) => setHouseNo(e.target.value)}/>
-                            <TextInput placeholder='Green Residences' label='Building' value={building} onChange={(e) => setBuilding(e.target.value)}/>
-                            <TextInput placeholder='Taft' label='Street' required value={street} onChange={(e) => setStreet(e.target.value)}/>
-                            <TextInput placeholder='San Juan' label='Barangay' required value={barangay} onChange={(e) => setBarangay(e.target.value)}/>
-                            <TextInput placeholder='Manila' label='City' required value={city} onChange={(e) => setCity(e.target.value)}/>
-                            <TextInput placeholder='NCR' label='Region' required value={region} onChange={(e) => setRegion(e.target.value)}/>
+                            <TextInput placeholder='01H' label='Block/Lot/House/Unit Number' required value={houseNo} onChange={(e) => setHouseNo(e.target.value)} />
+                            <TextInput placeholder='Green Residences' label='Building' value={building} onChange={(e) => setBuilding(e.target.value)} />
+                            <TextInput placeholder='Taft' label='Street' required value={street} onChange={(e) => setStreet(e.target.value)} />
+                            <TextInput placeholder='San Juan' label='Barangay' required value={barangay} onChange={(e) => setBarangay(e.target.value)} />
+                            <TextInput placeholder='Manila' label='City' required value={city} onChange={(e) => setCity(e.target.value)} />
+                            <TextInput placeholder='NCR' label='Region' required value={region} onChange={(e) => setRegion(e.target.value)} />
                           </div>
                         </motion.div>
                       )
@@ -239,6 +241,26 @@ function Cart() {
             )}
         </div>
       </div>
+      {paypalAcct
+        ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='bg-primary p-5 pt-3 absolute bottom-1 right-1 rounded-md shadow-lg text-sm'>
+            <div className='text-right'>
+              <button className='bg-red-600 border-2 border-red-600 hover:bg-primary  hover:text-red-600 transition-all rounded-xl text-white' onClick={() => setPaypalAcct(!paypalAcct)}>
+                <AiFillCloseCircle size={20} />
+              </button>
+            </div>
+            <p>Please use this payplal test account upon chekout</p>
+            <p>Email: </p>
+            <p className='font-semibold'>sb-xhw6a20741718@personal.example.com</p>
+            <p>Password: </p>
+            <p className='font-semibold'>rU?6KF0_</p>
+          </motion.div>
+        )
+        : (
+          <div className='absolute bottom-1 right-1 rounded-md shadow-lg' onClick={() => setPaypalAcct(!paypalAcct)}>
+            <Button className={primaryBtn}>Paypal Credentials</Button>
+          </div>
+        )}
     </Page>
   );
 }

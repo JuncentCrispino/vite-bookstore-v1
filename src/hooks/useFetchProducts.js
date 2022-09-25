@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import productStore from '../store/productStore';
 
-export default function useFetchProducts(query, page, sortBy, category) {
+export default function useFetchProducts(query = '', page = 1, sortBy = '', category = '') {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const products = productStore(state => state.products);
