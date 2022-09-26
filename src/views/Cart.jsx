@@ -155,7 +155,7 @@ function Cart() {
 
   return (
     <Page>
-      <div className='grid place-items-center h-screen max-w-4xl mx-auto px-4 pt-24'>
+      <div className='grid place-items-center pt-24 max-w-4xl mx-auto px-4'>
         <div className='max-h-100  place-items-center w-full rounded-lg bg-primary shadow-sm p-5'>
           <p className='text-center font-bold text-2xl text-red-600'>Cart</p>
           {cart.length < 1
@@ -235,32 +235,21 @@ function Cart() {
                 {user && <p className='text-xs text-red-600'>{inputError && inputError}</p>}
                 <Group position="right" mt="xl">
                   {active > 0 && <Button onClick={prevStep} className={primaryBtn} >Back</Button>}
-                  {active === 0 && <Button className={primaryBtn} type='submit' >Next</Button>}
+                  {user && <>{active === 0 && <Button className={primaryBtn} type='submit' >Next</Button>}</>}
                 </Group>
               </form>
             )}
         </div>
       </div>
-      {paypalAcct
-        ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='bg-primary p-5 pt-3 absolute bottom-1 right-1 rounded-md shadow-lg text-sm'>
-            <div className='text-right'>
-              <button className='bg-red-600 border-2 border-red-600 hover:bg-primary  hover:text-red-600 transition-all rounded-xl text-white' onClick={() => setPaypalAcct(!paypalAcct)}>
-                <AiFillCloseCircle size={20} />
-              </button>
-            </div>
-            <p>Please use this payplal test account upon chekout</p>
-            <p>Email: </p>
-            <p className='font-semibold'>sb-xhw6a20741718@personal.example.com</p>
-            <p>Password: </p>
-            <p className='font-semibold'>rU?6KF0_</p>
-          </motion.div>
-        )
-        : (
-          <div className='absolute bottom-1 right-1 rounded-md shadow-lg' onClick={() => setPaypalAcct(!paypalAcct)}>
-            <Button className={primaryBtn}>Paypal Credentials</Button>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <div className='grid place-items-center max-w-4xl mx-auto px-4 py-5'>
+          <div className='place-items-center w-full rounded-lg bg-primary shadow-sm p-5'>
+            <p className='text-[18px]'>Please use this payplal test account upon chekout :</p>
+            <p>Email: <span className='font-semibold'>sb-xhw6a20741718@personal.example.com</span></p>
+            <p>Password: <span className='font-semibold'>rU?6KF0_</span></p>
           </div>
-        )}
+        </div>
+      </motion.div>
     </Page>
   );
 }

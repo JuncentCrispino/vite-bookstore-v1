@@ -35,7 +35,7 @@ export default function CartItem({ book }) {
   return (
     <div>
       <div className='grid grid-cols-4 place-items-center'>
-        <div className='col-span-1 w-[70%] p-5'>
+        <div className='col-span-1 w-[70%]'>
           <img src={book.thumbnail} alt={book.title} /></div>
         <div className='col-span-1 block'>
           <p className='text-center font-semibold'>{book.title}</p>
