@@ -39,7 +39,7 @@ export default function NavBar() {
     setIsOpen(false);
     setUser(null);
     return showNotification({
-      icon: <BsFillCheckCircleFill/>,
+      icon: <BsFillCheckCircleFill />,
       color: 'green',
       title: 'Success',
       message: 'You have successfully logged out.'

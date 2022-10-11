@@ -1,9 +1,9 @@
 import React from 'react';
 import { Select } from '@mantine/core';
 
-export default function SelectCategory({ category, onCategorySelect, categories }) {
+export default function SelectCategory({ category, onCategorySelect, categories, className }) {
   return (
-    <div className='flex justify-between gap-2'>
+    <div className={className}>
       <Select
         placeholder='Category'
         searchable

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
-import DefaultCover from '../../assets/defaultCover.jpg';
+import DefaultCover from '../../assets/defaultCover.jfif';
 import { BsCartCheckFill } from 'react-icons/bs';
 import { BiRightArrowAlt } from 'react-icons/bi';
 import cartStore from '../../store/cart';
@@ -21,7 +21,7 @@ export default function ItemCard({ product }) {
 
   const handleAddToCart = () => {
     console.log(product);
-    if(!cart.some(item => item._id === product._id)){
+    if (!cart.some(item => item._id === product._id)) {
       addToCart({
         _id: product._id,
         title: product.title,
@@ -31,7 +31,7 @@ export default function ItemCard({ product }) {
         qty: 1
       });
       return showNotification({
-        icon: <BsFillCheckCircleFill/>,
+        icon: <BsFillCheckCircleFill />,
         color: 'green',
         title: 'Success',
         message: 'Added new book to your cart'
@@ -39,7 +39,7 @@ export default function ItemCard({ product }) {
     } else {
       addItemQty(product);
       return showNotification({
-        icon: <BsFillCheckCircleFill/>,
+        icon: <BsFillCheckCircleFill />,
         color: 'green',
         title: 'Success',
         message: 'Updated book quantity on your cart'
@@ -50,14 +50,14 @@ export default function ItemCard({ product }) {
     if (!favorites.some(id => id === product._id)) {
       addToFavorites(product._id);
       return showNotification({
-        icon: <BsFillCheckCircleFill/>,
+        icon: <BsFillCheckCircleFill />,
         color: 'green',
         title: 'Success',
         message: `Added ${product.title} to your favorites`
       });
     }
     return showNotification({
-      icon: <RiErrorWarningFill/>,
+      icon: <RiErrorWarningFill />,
       color: 'yellow',
       title: 'Sorry',
       message: `${product.title} is already in your favorites`
@@ -70,11 +70,11 @@ export default function ItemCard({ product }) {
   return (
     <div className="md:w-48 relative mb-2">
       <section>
-        <img src={product.thumbnail || DefaultCover} className='object-cover w-full aspect-[2/3] max-w rounded-lg cursor-pointer' onClick={handleOpen}/>
+        <img src={product.thumbnail || DefaultCover} className='object-cover w-full aspect-[2/3] max-w- rounded-lg cursor-pointer' onClick={handleOpen} />
       </section>
       <section className='absolute right-[5px] top-[5px]'>
         <button className='bg-primary rounded-[50%] p-btn' onClick={handleOpen}>
-          <BiRightArrowAlt className='text-red-600' size={25}/>
+          <BiRightArrowAlt className='text-red-600' size={25} />
         </button>
       </section>
       <section className='absolute left-[5px] top-[5px]'>
