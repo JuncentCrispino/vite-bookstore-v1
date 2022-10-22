@@ -57,7 +57,7 @@ function Login() {
         localStorage.setItem('accessToken', loginRes.accessToken);
         localStorage.setItem('refreshToken', loginRes.refreshToken);
         showNotification({
-          icon: <BiCoffee/>,
+          icon: <BiCoffee />,
           color: 'green',
           title: 'Good Day!',
           message: 'You have successfully logged in to your account.'
@@ -81,7 +81,7 @@ function Login() {
   const primaryBtn = 'bg-red-600 border-2 border-red-600 hover:bg-primary  hover:text-red-600 transition-all';
   return (
     <Page>
-      <div className='grid place-items-center h-screen max-w-md mx-auto px-4'>
+      <div className='grid place-items-center h-[80vh] max-w-md mx-auto px-4'>
         <div className='max-h-80 grid place-items-center w-full rounded-lg bg-primary shadow-sm'>
           <form onSubmit={login} className='w-full px-8 py-8'>
             <TextInput

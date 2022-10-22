@@ -6,7 +6,7 @@ import Page from '../composables/Page';
 function ContactUs() {
   return (
     <Page>
-      <div className='grid place-items-center h-screen max-w-md mx-auto px-4'>
+      <div className='grid place-items-center h-[80vh] max-w-md mx-auto px-4'>
         <div className='max-h-100 grid place-items-center w-full rounded-lg bg-primary shadow-sm gap-5 p-5'>
           <div className='p-5 w-full grid gap-5'>
             <p className='text-center font-bold text-2xl text-red-600'>Contact Us</p>

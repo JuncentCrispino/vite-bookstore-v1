@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { showNotification } from '@mantine/notifications';
 import { motion } from 'framer-motion';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { H1 } from '../components/Typography/Headers';
 
 function Cart() {
   const user = userStore(state => state.user);
@@ -155,9 +156,10 @@ function Cart() {
 
   return (
     <Page>
-      <div className='grid place-items-center pt-24 max-w-4xl mx-auto px-4'>
+      <H1>Cart</H1>
+      <div className='grid place-items-center mx-auto'>
         <div className='max-h-100  place-items-center w-full rounded-lg bg-primary shadow-sm p-5'>
-          <p className='text-center font-bold text-2xl text-red-600'>Cart</p>
+          <p className='text-center font-bold text-2xl text-red-600'>Shipping & Items Details</p>
           {cart.length < 1
             ? (<p className='p-10 text-md'>There are no items in your cart, <button className='font-bold text-red-600' onClick={() => navigate('/products')}>Click here to shop.</button></p>)
             : (
@@ -242,7 +244,7 @@ function Cart() {
         </div>
       </div>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        <div className='grid place-items-center max-w-4xl mx-auto px-4 py-5'>
+        <div className='grid place-items-center py-5'>
           <div className='place-items-center w-full rounded-lg bg-primary shadow-sm p-5'>
             <p className='text-[18px]'>Please use this payplal test account upon chekout :</p>
             <p>Email: <span className='font-semibold'>sb-xhw6a20741718@personal.example.com</span></p>

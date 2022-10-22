@@ -27,7 +27,7 @@ const Router = () => {
     (async () => {
       try {
         setIsLoading(true);
-        const userDetailsReq= await getUserDetails();
+        const userDetailsReq = await getUserDetails();
         if (userDetailsReq.status === 200) {
           return setUser(await userDetailsReq.json());
         } else if (userDetailsReq.status === 401) {
@@ -47,29 +47,30 @@ const Router = () => {
     })();
   }, []);
 
-  if(isloading) {
+  if (isloading) {
     return <Loader />;
   }
   return (
-    <Suspense fallback={<Loader/>}>
+    <Suspense fallback={<Loader />}>
       <BrowserRouter>
         <PayPalScriptProvider options={{ 'client-id': import.meta.env.VITE_PAYPAL_CLIENT, 'currency': 'PHP' }}>
           <NotificationsProvider position='top-left' transitionDuration={700} autoClose={3000}>
-            <NavBar />
-            <ScrollToTop/>
-            <FallbackProvider>
-              <Routes>
-                {publicRoutes.map(route => (
-                  <Route key={route.path} path={route.path} element={route.element} />
-                ))}
-                <Route element={<ProtectedRoutes user={user} />} >
-                  {authRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
-                </Route>
-                <Route element={<AdminRoutes user={user} />}>
-                  {adminRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
-                </Route>
-              </Routes>
-            </FallbackProvider>
+            <NavBar>
+              <ScrollToTop />
+              <FallbackProvider>
+                <Routes>
+                  {publicRoutes.map(route => (
+                    <Route key={route.path} path={route.path} element={route.element} />
+                  ))}
+                  <Route element={<ProtectedRoutes user={user} />} >
+                    {authRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
+                  </Route>
+                  <Route element={<AdminRoutes user={user} />}>
+                    {adminRoutes.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
+                  </Route>
+                </Routes>
+              </FallbackProvider>
+            </NavBar>
           </NotificationsProvider>
         </PayPalScriptProvider>
       </BrowserRouter>

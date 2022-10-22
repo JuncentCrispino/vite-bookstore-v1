@@ -7,23 +7,18 @@ const Page = ({ children }) => {
   const { onLoad } = usePage();
 
   const render = useMemo(() => {
-    return (
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        {children}
-      </motion.div>
-    );
+    return children;
   }, [children]);
 
   useEffect(() => {
     onLoad(render);
   }, [onLoad, render]);
 
-  useEffect(() => {
-    endLoading();
-    return () => startLoading();
-  }, []);
-
-  return render;
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      {render}
+    </motion.div>
+  );
 };
 
 export default Page;

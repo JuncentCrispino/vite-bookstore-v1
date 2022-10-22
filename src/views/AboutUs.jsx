@@ -4,7 +4,7 @@ import Page from '../composables/Page';
 function AboutUs() {
   return (
     <Page>
-      <div className='max-w-screen-xl m-auto pt-[100px] text-justify'>
+      <div className='text-justify'>
         <section className='grid lg:grid-cols-3'>
           <div className='p-6 max-w-s rounded-lg border border-gray-200 shadow-md bg-primary mx-4 mb-4 col-span-1'>
             <p className='text-md text-hb'>

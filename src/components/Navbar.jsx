@@ -9,7 +9,7 @@ import { BsCartCheckFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { Burger } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 
-export default function NavBar() {
+export default function NavBar({ children }) {
   const user = userStore(state => state.user);
   const setUser = userStore(state => state.setUser);
   const cart = cartStore(state => state.cart);
@@ -46,13 +46,15 @@ export default function NavBar() {
     });
   };
 
-  const active = ({ isActive }) => (isActive
-    ? 'text-primary text-lg bg-inherit font-bold underline decoration-2 underline-offset-4 py-5'
-    : 'text-primary text-lg bg-inherit py-5');
+  const active = ({ isActive }) => (
+    isActive
+      ? 'text-primary text-lg bg-inherit font-bold underline decoration-2 underline-offset-4 py-5'
+      : 'text-primary text-lg bg-inherit py-5'
+  );
 
   return (
     <div className='relative z-50'>
-      <nav className='bg-red-600 text-primary shadow-s1 fixed inset-x-0'>
+      <nav className='bg-red-600 text-primary shadow-s1 fixed inset-x-0 z-10'>
         <div className='max-w-screen-xl m-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between h-16'>
             <div className='flex gap-4'>
@@ -62,8 +64,8 @@ export default function NavBar() {
               <div className='hidden md:block'>
                 <div className='flex gap-4'>
                   {
-                    navLinks.map(link => (
-                      <NavLink key={link.name} to={link.path} className={active}>{link.name}</NavLink>
+                    navLinks.map((link, i) => (
+                      <NavLink key={i} to={link.path} className={active} end >{link.name}</NavLink>
                     ))
                   }
                 </div>
@@ -136,6 +138,9 @@ export default function NavBar() {
           )}
         </Transition>
       </nav>
+      <main className='max-w-screen-xl m-auto pt-20 px-10'>
+        {children}
+      </main>
     </div>
   );
 }

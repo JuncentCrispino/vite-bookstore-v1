@@ -105,7 +105,7 @@ function Register() {
 
   return (
     <Page>
-      <div className='grid place-items-center h-screen max-w-md mx-auto px-4'>
+      <div className='grid place-items-center h-[80vh] max-w-md mx-auto px-4'>
         <section className='grid place-items-center w-full rounded-lg bg-primary shadow-shadow-1'>
           <form onSubmit={(e) => nextStep(e)} className='w-full px-8 py-8'>
             <Stepper active={active} onStepClick={setActive} breakpoint="sm" size='xs'>
